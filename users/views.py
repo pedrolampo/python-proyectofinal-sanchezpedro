@@ -68,9 +68,10 @@ def editar_perfil(request):
                     avatar.save()
 
             miFormulario.save()
+            print(miFormulario.cleaned_data)
 
             return render(request, "BaseApp/index.html")
-        
+
     else:
         miFormulario = UserEditForm(instance=usuario)
 
@@ -82,9 +83,10 @@ class CambiarContrasenia(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy("Profile")
 
 
+
 class ChatListView(LoginRequiredMixin, ListView):
     model = Messages
-    template_name = "BaseApp/chat.html"
+    template_name = "users/chat.html"
     context_object_name = "messages"
 
     def get_queryset(self):

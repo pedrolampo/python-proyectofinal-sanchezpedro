@@ -27,7 +27,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto my-2 my-lg-0">
+          <ul class="navbar-nav ms-auto my-2 my-lg-0 align-items-center">
             {% if not request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link text-black" href="{% url 'Register' %}"
@@ -46,9 +46,10 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link text-black" href="{% url 'Profile' %}"
-                  >Editar Perfil</a
-                >
+                <a class="nav-link text-black" href="{% url 'Profile' %}">
+                  <img src="{{request.user.imagen.imagen.url}}" alt="" style="height: 50px;width: 50px;">
+                  {{ request.user.username }}
+                  </a>
               </li>
               <li class="nav-item">
                 <form method="post" action="{% url 'Logout' %}">

@@ -9,12 +9,20 @@ class UserEditForm(UserChangeForm):
     email = forms.EmailField(label="Ingrese su email:")
     last_name = forms.CharField(label='Apellido')
     first_name = forms.CharField(label='Nombre')
+    description = forms.CharField(label='Descripción', required=False)
+    website = forms.CharField(label='Página Web', required=False)
 
     imagen = forms.ImageField(label="Avatar", required=False)
 
     class Meta:
         model = User
-        fields = ['email', 'last_name', 'first_name', 'imagen']  
+        fields = ['email',
+                'last_name',
+                'first_name',
+                'imagen',
+                'description',
+                'website'
+            ]  
 
 
 class UserRegisterForm(UserCreationForm):
