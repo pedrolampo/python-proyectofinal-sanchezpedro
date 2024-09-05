@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic import ListView
@@ -7,7 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Guitar, Bass, Client
 
@@ -19,6 +20,16 @@ def inicio(req):
 
 def about(req):
   return render(req, 'BaseApp/about.html')
+
+
+# Mixing custom para verificar si el usuario tiene permisos de admin
+class AdminOnlyMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser
+    
+    def handle_no_permission(self):
+        return redirect('no_permission')  # Redirige a una página de error personalizada si no es admin
+
 
 
 
@@ -34,20 +45,20 @@ class GuitarDetailView(LoginRequiredMixin, DetailView):
   model = Guitar
   template_name = "BaseApp/guitar-detail.html"
 
-class GuitarCreateView(LoginRequiredMixin, CreateView):
+class GuitarCreateView(LoginRequiredMixin, AdminOnlyMixin, CreateView):
   model = Guitar
   template_name = "BaseApp/guitar-form.html"
   fields = ["name", "brand", "model", "color", "price", "description"]
 
   success_url = reverse_lazy("Guitarras")
 
-class GuitarUpdateView(LoginRequiredMixin, UpdateView):
+class GuitarUpdateView(LoginRequiredMixin, AdminOnlyMixin, UpdateView):
     model = Guitar
     success_url = reverse_lazy("Guitarras")
     fields = ["name", "brand", "model", "color", "price", "description"]
     template_name = "BaseApp/guitar-update.html"
 
-class GuitarDeleteView(LoginRequiredMixin, DeleteView):
+class GuitarDeleteView(LoginRequiredMixin, AdminOnlyMixin, DeleteView):
     model = Guitar
     success_url = reverse_lazy("Guitarras")
     template_name = 'BaseApp/guitar-delete.html'
@@ -66,20 +77,20 @@ class BassDetailView(LoginRequiredMixin, DetailView):
   model = Bass
   template_name = "BaseApp/bass-detail.html"
 
-class BassCreateView(LoginRequiredMixin, CreateView):
+class BassCreateView(LoginRequiredMixin, AdminOnlyMixin, CreateView):
   model = Bass
   template_name = "BaseApp/bass-form.html"
   fields = ["name", "brand", "model", "color", "price", "description"]
 
   success_url = reverse_lazy("Bajos")
 
-class BassUpdateView(LoginRequiredMixin, UpdateView):
+class BassUpdateView(LoginRequiredMixin, AdminOnlyMixin, UpdateView):
     model = Bass
     success_url = reverse_lazy("Bajos")
     fields = ["name", "brand", "model", "color", "price", "description"]
     template_name = "BaseApp/bass-update.html"
 
-class BassDeleteView(LoginRequiredMixin, DeleteView):
+class BassDeleteView(LoginRequiredMixin, AdminOnlyMixin, DeleteView):
     model = Bass
     success_url = reverse_lazy("Bajos")
     template_name = 'BaseApp/bass-delete.html'
@@ -97,20 +108,20 @@ class ClientDetailView(LoginRequiredMixin, DetailView):
   model = Client
   template_name = "BaseApp/client-detail.html"
 
-class ClientCreateView(LoginRequiredMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, AdminOnlyMixin, CreateView):
   model = Client
   template_name = "BaseApp/client-form.html"
   fields = ["name", "surname", "email"]
 
   success_url = reverse_lazy("Clientes")
 
-class ClientUpdateView(LoginRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, AdminOnlyMixin, UpdateView):
     model = Client
     success_url = reverse_lazy("Clientes")
     fields = ["name", "surname", "email"]
     template_name = "BaseApp/client-update.html"
 
-class ClientDeleteView(LoginRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, AdminOnlyMixin, DeleteView):
     model = Client
     success_url = reverse_lazy("Clientes")
     template_name = 'BaseApp/client-delete.html'
@@ -164,3 +175,7 @@ def searchResults(req):
 # Esto solo funciona si `DEGUB = False` en settings.py
 def handling_404(req, exception):
   return render(req, '404.html', {})
+
+# Vista error 403 custom
+def no_permission_view(request):
+    return render(request, '403.html')
