@@ -1,5 +1,8 @@
 # Proyecto Final Python 57825 -  Pedro Sanchez
 
+## Video Explicativo
+En [este link](https://drive.google.com/file/d/1pqchK9VPFEkQwvLsaEQp9xJ34dRBIPy1/view?usp=sharing) se podrá encontrar un video explicando el funcionamiento del proyecto.
+
 ## Entorno virtual
 Lo primero que debe hacerse es crear un entorno virtual en el proyecto:  
 ```sh
