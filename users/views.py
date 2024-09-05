@@ -68,7 +68,6 @@ def editar_perfil(request):
                     avatar.save()
 
             miFormulario.save()
-            print(miFormulario.cleaned_data)
 
             return render(request, "BaseApp/index.html")
 

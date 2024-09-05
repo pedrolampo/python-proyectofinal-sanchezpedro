@@ -152,7 +152,6 @@ def searchResults(req):
   if guitar_query:
     nombre = guitar_query
     guitarras = Guitar.objects.filter(name__icontains=nombre)
-    print(guitarras)
     return render(req, "BaseApp/results.html", { "name": nombre, "guitars": guitarras })
 
   elif bass_query:
