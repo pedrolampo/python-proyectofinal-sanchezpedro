@@ -23,7 +23,7 @@ def about(req):
 
 
 # Todas las vistas del modelo Guitar
-class GuitarListView(LoginRequiredMixin, ListView):
+class GuitarListView(ListView):
   model = Guitar
   template_name = "BaseApp/guitarras.html"
 
@@ -55,7 +55,7 @@ class GuitarDeleteView(LoginRequiredMixin, DeleteView):
 
 
 # Todas las vistas del modelo Bass
-class BassListView(LoginRequiredMixin, ListView):
+class BassListView(ListView):
   model = Bass
   template_name = "BaseApp/bajos.html"
 
