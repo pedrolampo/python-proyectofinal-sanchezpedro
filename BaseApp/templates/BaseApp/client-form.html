@@ -1,0 +1,49 @@
+{% extends "BaseApp/index.html" %}
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<header class="masthead">
+    <div class="container px-4 px-lg-5 h-50">
+        <div
+        class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center"
+        >
+        <div class="col-lg-8 align-self-end">
+            <h1 class="text-white font-weight-bold">Formulario de Clientes</h1>
+            <hr class="divider" />
+        </div>
+        </div>
+    </div>
+</header>
+
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+      <div class="col-md-6">
+          <div class="card">
+              <div class="card-header">
+                  <h3 class="text-center">Agregar nuevo cliente:</h3>
+              </div>
+              <div class="card-body">
+                  <form method="post">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                          <label for="name" class="form-label">Nombre:</label>
+                          <input type="text" class="form-control" id="name" name="name" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="surname" class="form-label">Apellido:</label>
+                        <input type="text" class="form-control" id="surname" name="surname" required>
+                    </div>
+                      <div class="mb-3">
+                          <label for="email" class="form-label">Email:</label>
+                          <input type="email" class="form-control" id="email" name="email" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Enviar</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

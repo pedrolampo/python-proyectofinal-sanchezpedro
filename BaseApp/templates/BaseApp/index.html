@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BaseApp</title>
+    <link href="{%  static 'baseapp/css/styles.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-lg navbar-light fixed-top py-3"
+      id="mainNav"
+      style="background-color: coral;"
+    >
+      <div class="container px-4 px-lg-5">
+        <a class="navbar-brand text-black" href="{% url 'Inicio' %}">BaseApp</a>
+        <button
+          class="navbar-toggler navbar-toggler-right"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto my-2 my-lg-0">
+              <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'About' %}"
+                  >Sobre Mí</a
+                >
+              </li>
+            {% if not request.user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'Register' %}"
+                  >Registrarse</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'Login' %}"
+                  >Iniciar Sesión</a
+                >
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <form method="post" action="{% url 'Logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link text-black" style="border: none; background-color: transparent;">Cerrar Sesión</button>
+              </form>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block contenidoQueCambia %}
+    <header class="masthead">
+      <div class="container px-4 px-lg-5 h-75">
+        <div
+          class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center"
+        >
+          <div class="col-lg-8 align-self-end">
+            <h1 class="text-white font-weight-bold">Inicio</h1>
+            <hr class="divider" />
+          </div>
+          <div class="col-lg-8 align-self-baseline">
+            <div class="">
+                <a class="nav-link text-white fs-5 mb-3" href="{% url 'Guitarras' %}"
+                  >Guitarras</a
+                >
+                <a class="nav-link text-white fs-5 mb-3" href="{% url 'Bajos' %}">Bajos</a>
+                <a class="nav-link text-white fs-5 mb-3" href="{% url 'Clientes' %}"
+                  >Clientes</a
+                >
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    {% endblock %}
+
+    <footer class="bg-light py-5">
+      <div class="container px-4 px-lg-5">
+        <div class="small text-center text-muted">
+          App desarrollada por: Pedro Sanchez
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+    <script src="{% static 'baseapp/js/scripts.js' %}"></script>
+  </body>
+</html>

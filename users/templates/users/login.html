@@ -1,0 +1,18 @@
+{% extends 'BaseApp/index.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+    <div class="d-flex justify-content-center pt-5 mt-5 h-75">
+        <div class="d-flex flex-column">
+            <p class="fs-5 fw-bold">{{ msg_login }}</p>
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+                <input type="submit" value="Iniciar sesión">
+            </form>
+        </div>
+    </div>
+{% endblock contenidoQueCambia %}
