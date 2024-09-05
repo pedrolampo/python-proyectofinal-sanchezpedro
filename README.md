@@ -44,6 +44,10 @@ Si se elige ingresar al detalle de algún item, entraras en una página donde se
 ## Funcionamiento
 La aplicación funciona de manera que al ingresar en cualquiera de las rutas mostradas en `BaseApp/urls.py` se llama a la función correspondiente de `BaseApp/views.py` y renderiza el template que le corresponda.
 
+Todas las páginas de detalle y formularios estan protegidos tal que si no se está loggeado no se podrán visualizar.  
+Las páginas Inicio, About, y List (Clientes no incluido) son visibles, pero si se intenta ingresar más adentro no se podrá.  
+Para ello se deberá crear un usuario y después hacer login.
+
 Al entrar a cualquiera de los 3 forms para ingreso de datos, se hace una petición HTTP POST de manera que se instancia un nuevo objecto del modelo correspondiente (`BaseApp/models.py`), y se llama al método `save()` para cargarlo en la BD.
 
 Si se ingresa a los forms de búsqueda de información, al llenar el fomulario, se hace una petición GET del item correspondiente y se redirecciona al usuario a la url de resultados que usa el template `BaseApp/templates/BaseApp/results.html`, ejemplo: http://127.0.0.1:8000/BaseApp/search-results/?guitar=Epiphone.
