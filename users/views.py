@@ -1,11 +1,14 @@
-from django.shortcuts import render, redirect
-from users.forms import UserRegisterForm
-from django.contrib.auth import login, authenticate
 from django.views.generic import ListView
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from users.forms import UserRegisterForm, UserEditForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 
-from .models import Messages
+from .models import Messages, Imagen
 
 def login_request(request):
     msg_login = ""
@@ -16,11 +19,9 @@ def login_request(request):
             usuario = form.cleaned_data.get('username')
             contrasenia = form.cleaned_data.get('password')
 
-            # Autenticamos el usuario
             user = authenticate(username=usuario, password=contrasenia)
 
             if user is not None:
-                # Iniciamos la sesión si el usuario es válido
                 login(request, user)
                 return render(request, "BaseApp/index.html")
             else:
@@ -49,6 +50,36 @@ def register(request):
     form = UserRegisterForm()     
     return render(request,"users/registro.html" ,  {"form":form, "msg_register": msg_register})
 
+
+@login_required 
+def editar_perfil(request):
+    usuario = request.user
+
+    if request.method == 'POST':
+        miFormulario = UserEditForm(request.POST, request.FILES, instance=usuario)
+
+        if miFormulario.is_valid():
+            if miFormulario.cleaned_data.get('imagen'):
+                if Imagen.objects.filter(user=usuario).exists():
+                    usuario.imagen.imagen = miFormulario.cleaned_data.get('imagen')
+                    usuario.imagen.save()
+                else:
+                    avatar = Imagen(user=usuario, imagen=miFormulario.cleaned_data.get('imagen'))
+                    avatar.save()
+
+            miFormulario.save()
+
+            return render(request, "BaseApp/index.html")
+        
+    else:
+        miFormulario = UserEditForm(instance=usuario)
+
+    return render(request, "users/edit-profile.html", {"mi_form": miFormulario, "usuario": usuario})
+
+
+class CambiarContrasenia(LoginRequiredMixin, PasswordChangeView):
+    template_name = "users/edit-pass.html"
+    success_url = reverse_lazy("Profile")
 
 
 class ChatListView(LoginRequiredMixin, ListView):

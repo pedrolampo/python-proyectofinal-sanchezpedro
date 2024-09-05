@@ -1,0 +1,14 @@
+{% extends 'BaseApp/index.html' %}
+{% load static %}
+
+{% block contenidoQueCambia %}
+  <form method="POST" enctype="multipart/form-data" style="margin-top: 7em; margin-bottom: 2em; padding: 1em;">
+    {% csrf_token %}
+    <table style="margin-bottom: 1em;">
+      {{ mi_form.as_table }}
+    </table>
+    
+    <input type="submit" value="Actualizar">
+  </form>
+  <a class="btn btn-secondary" style="margin: 1em;" href="{% url 'ChangePass' %}">Cambiar contraseña</a>
+{% endblock contenidoQueCambia %}
