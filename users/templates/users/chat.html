@@ -1,0 +1,27 @@
+{% extends 'BaseApp/index.html' %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+<div class="d-flex p-5 mt-5 h-75">
+  <div class="d-flex flex-column w-100 p-3" style="border: 1px solid black; border-radius: 8px;">
+    <div style="flex: 1; overflow-y: scroll;">
+      {% for message in messages %}
+        <div>
+          <strong>{{ message.user.username }}:</strong> {{ message.content }}
+        </div>
+      {% empty %}
+        <p>No hay mensajes aún.</p>
+      {% endfor %}
+    </div>
+
+    <form class="w-100 mt-3" style="display: flex; align-self: center; flex-direction: row; gap: 1em;" method="POST">
+      {% csrf_token %}
+      <div style="flex: 1;">
+        <input type="text" class="form-control" id="content" name="content" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+</div>
+{% endblock contenidoQueCambia %}

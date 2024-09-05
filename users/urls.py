@@ -6,4 +6,5 @@ urlpatterns = [
   path('login/', views.login_request, name="Login"),
   path('signup/', views.register, name="Register"),
   path('logout/', LogoutView.as_view(template_name='users/logout.html', next_page='Inicio'), name="Logout"),
+  path('chat/', views.ChatListView.as_view(template_name='users/chat.html'), name="Chat"),
 ]

@@ -46,10 +46,15 @@
               </li>
             {% else %}
               <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'Chat' %}"
+                  >Chat</a
+                >
+              </li>
+              <li class="nav-item">
                 <form method="post" action="{% url 'Logout' %}">
                   {% csrf_token %}
                   <button type="submit" class="nav-link text-black" style="border: none; background-color: transparent;">Cerrar Sesión</button>
-              </form>
+                </form>
               </li>
             {% endif %}
           </ul>

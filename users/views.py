@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
 from users.forms import UserRegisterForm
 from django.contrib.auth import login, authenticate
+from django.views.generic import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import AuthenticationForm
+
+from .models import Messages
 
 def login_request(request):
     msg_login = ""
@@ -45,3 +48,19 @@ def register(request):
 
     form = UserRegisterForm()     
     return render(request,"users/registro.html" ,  {"form":form, "msg_register": msg_register})
+
+
+
+class ChatListView(LoginRequiredMixin, ListView):
+    model = Messages
+    template_name = "BaseApp/chat.html"
+    context_object_name = "messages"
+
+    def get_queryset(self):
+        return Messages.objects.order_by('created_at')
+
+    def post(self, request, *args, **kwargs):
+        content = request.POST.get('content')
+        if content:
+            Messages.objects.create(content=content, user=request.user)
+        return redirect('Chat')
