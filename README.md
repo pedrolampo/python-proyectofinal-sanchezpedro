@@ -53,3 +53,9 @@ Al entrar a cualquiera de los 3 forms para ingreso de datos, se hace una petici�
 Si se ingresa a los forms de búsqueda de información, al llenar el fomulario, se hace una petición GET del item correspondiente y se redirecciona al usuario a la url de resultados que usa el template `BaseApp/templates/BaseApp/results.html`, ejemplo: http://127.0.0.1:8000/BaseApp/search-results/?guitar=Epiphone.
 
 Por último, cuando se ingresa al detalle de un item de la BD, se hace una petición GET al servidor para que devuelva todos los datos correspondientes al objeto llamado. Ejemplo de url: http://127.0.0.1:8000/BaseApp/guitarras/2/
+
+## Admin
+Se puede acceder a la página de admin desde http://127.0.0.1:8000/admin/  
+Las credenciales del superuser son genéricas, puedes entrar a él con:
+  - User: admin
+  - Pass: admin
